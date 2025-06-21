@@ -1,0 +1,59 @@
+# ─────────────────────────────────────────────
+#  PromptGuardian EDU — .gitignore (lean)
+#  Keep it small; add lines when you add tools
+# ─────────────────────────────────────────────
+
+### 1. Logs & diagnostics
+*.log
+npm-debug.log*
+yarn-debug.log*
+lerna-debug.log*
+.pnpm-debug.log*
+report.*.json
+
+### 2. Runtime data & PIDs
+pids/
+*.pid
+*.pid.lock
+
+### 3. Dependencies
+node_modules/
+bower_components/
+jspm_packages/
+
+### 4. Build / bundle output
+dist/
+build/
+web_modules/          # (Snowpack)
+web-ext-artifacts/    # (firefox/chrome web-ext build dir)
+*.zip                 # packaged extension zips
+
+### 5. Coverage / instrumentation
+coverage/
+*.lcov
+.nyc_output/
+lib-cov/
+
+### 6. Caches
+.cache/
+.parcel-cache/
+.vitepress/cache/
+.rpt2_cache*/         # rollup-plugin-ts
+.rts2_cache_*/        # rollup-types-script
+
+### 7. Tool metadata
+*.tsbuildinfo
+.eslintcache
+.stylelintcache
+.yarn-integrity
+.yarn/cache
+.yarn/unplugged
+
+### 8. Env / secrets
+.env*
+*.pem                 # Chrome/Firefox signing keys (never commit)
+
+### 9. VSCode extension test cache
+.vscode-test/
+
+
