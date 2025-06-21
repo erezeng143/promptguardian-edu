@@ -1,18 +1,33 @@
-const MAX = 1000;               // or 90-day via timestamp
+// FILE: content/logger.js
+// PromptGuardian EDU — ring-buffer event logger
+// Stores the last 1 000 events in chrome.storage.local (key: pgLogs)
+// ---------------------------------------------------------------
 
-export async function logEvent(type, payload = {}) {
-  const now = Date.now();
-  const entry = { ts: now, type, ...payload };
-  const { pgLogs = [] } = await chrome.storage.local.get("pgLogs");
-  pgLogs.push(entry);
+const MAX_LOGS = 1000;
 
-  /* Trim to last MAX records */
-  while (pgLogs.length > MAX) pgLogs.shift();
-  await chrome.storage.local.set({ pgLogs });
+/**
+ * Usage examples:
+ *   logEvent("rewrite", { topic: "calculus", tplId: "cot_integral_v3" });
+ *   logEvent("verify",  { tplId: "cot_integral_v3", answer_correct: true });
+ */
+function logEvent(type, data = {}) {
+  chrome.storage.local.get({ pgLogs: [] }, ({ pgLogs }) => {
+    pgLogs.push({ ts: Date.now(), type, ...data });
+
+    // Keep only the last MAX_LOGS entries
+    if (pgLogs.length > MAX_LOGS) {
+      pgLogs.splice(0, pgLogs.length - MAX_LOGS);
+    }
+    chrome.storage.local.set({ pgLogs });
+  });
 }
 
-/* Export helper for popup */
-export async function exportLogs() {
-  const { pgLogs } = await chrome.storage.local.get("pgLogs");
-  return pgLogs || [];
+/* Expose to other content scripts */
+if (typeof window !== "undefined") {
+  window.logEvent = logEvent;
+}
+
+/* Export for Node / Jest unit tests */
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { logEvent };
 }
