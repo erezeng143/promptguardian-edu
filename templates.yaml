@@ -1,0 +1,31 @@
+calculus:
+  solve_integral:
+    id: cot_integral_v3
+    template: |
+      Let's solve this integral step-by-step:
+      {{PROMPT}}
+      Show substitutions and the final simplified answer.
+    checker: sympy_integral
+  compute_limit:
+    id: cot_limit
+    template: |
+      Evaluate the limit carefully:
+      {{PROMPT}}
+      Use L'Hôpital if needed and simplify.
+    checker: sympy_limit
+
+algebra:
+  find_determinant:
+    id: cot_det
+    template: |
+      Determine the determinant of the matrix:
+      {{PROMPT}}
+      If triangular use the shortcut; otherwise perform cofactor expansion along the row with most zeros.
+    checker: sympy_det
+
+generic:
+  cot_default:
+    id: cot_default
+    template: |
+      Let's reason step-by-step:
+      {{PROMPT}}
