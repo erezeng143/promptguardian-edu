@@ -1,0 +1,62 @@
+{
+  "manifest_version": 3,
+  "name": "PromptGuardian EDU",
+  "description": "Rewrite vague math prompts, guide GPT, verify answers locally.",
+  "version": "2.1.0",
+
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+
+  "permissions": [
+    "storage",
+    "downloads",
+    "alarms",
+    "scripting"
+  ],
+
+  "host_permissions": [
+    "https://chat.openai.com/*",
+    "https://raw.githubusercontent.com/*"
+  ],
+
+  "background": {
+    "service_worker": "background/serviceWorker.js",
+    "type": "module"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["https://chat.openai.com/*"],
+      "js": [
+        "content/logger.js",
+        "content/classifier.js",
+        "content/triggerDetector.js",
+        "content/templateEngine.js",
+        "content/strategist.js",
+        "content/verifier.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+
+  "web_accessible_resources": [
+    {
+      "resources": ["templates.yaml", "templates.json"],
+      "matches": ["https://chat.openai.com/*"]
+    }
+  ],
+
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png"
+    }
+  }
+}
+
+
+
